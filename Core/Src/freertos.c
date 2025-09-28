@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "gpio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -148,6 +148,22 @@ void StartButtonTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET)
+    {
+      osDelay(2);
+      if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET)
+      {
+        HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+      }
+    }
+    else if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET)
+    {
+      osDelay(2);
+      if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET)
+      {
+        HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+      }
+    }
     osDelay(1);
   }
   /* USER CODE END StartButtonTask */

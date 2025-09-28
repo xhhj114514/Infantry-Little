@@ -88,10 +88,17 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
 )
 
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
+    -Wno-gnu
+    -Wno-gnu-binary-literal
+)
+
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
 )
+
+
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}

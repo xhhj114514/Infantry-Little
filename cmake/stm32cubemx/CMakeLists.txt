@@ -13,6 +13,8 @@ target_compile_definitions(stm32cubemx INTERFACE
     $<$<CONFIG:Debug>:DEBUG>
 )
 
+
+
 target_include_directories(stm32cubemx INTERFACE
     ../../Core/Inc
     ../../Drivers/STM32F4xx_HAL_Driver/Inc
