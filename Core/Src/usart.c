@@ -20,8 +20,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
 
-UART_HandleTypeDef huart1;
-
 /* USER CODE BEGIN 0 */
 void _putchar(char ch)
 {
@@ -29,7 +27,7 @@ void _putchar(char ch)
 }
 /* USER CODE END 0 */
 
-
+UART_HandleTypeDef huart1;
 
 /* USART1 init function */
 

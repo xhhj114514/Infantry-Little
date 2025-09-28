@@ -68,6 +68,9 @@ endfunction()
 ###############################在此处添加你的文件路径#########
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/LED)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/printf)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/dwt)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/algorithm)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Applications)
 
 
 # Link directories setup

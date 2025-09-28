@@ -1,19 +1,7 @@
-#include "bsp_init.h"
 #include "robot.h"
 #include "robot_def.h"
 #include "robot_task.h"
 
-// 编译warning,提醒开发者修改机器人参数
-#ifndef ROBOT_DEF_PARAM_WARNING
-#define ROBOT_DEF_PARAM_WARNING
-#pragma message "check if you have configured the parameters in robot_def.h, IF NOT, please refer to the comments AND DO IT, otherwise the robot will have FATAL ERRORS!!!"
-#endif // !ROBOT_DEF_PARAM_WARNING
-
-#include "chassis.h"
-
-#include "gimbal.h"
-#include "shoot.h"
-#include "robot_cmd.h"
 
 
 void RobotInit()
@@ -22,12 +10,7 @@ void RobotInit()
     // 请不要在初始化过程中使用中断和延时函数！
     // 若必须,则只允许使用DWT_Delay()
     __disable_irq();
-    
-    BSPInit();
-    RobotCMDInit();
-    GimbalInit();
-    ChassisInit();
-    ShootInit();
+
 
     OSTaskInit(); // 创建基础任务
 
@@ -37,8 +20,5 @@ void RobotInit()
 
 void RobotTask()
 {
-    RobotCMDTask();
-    GimbalTask();
-    ShootTask();
-    ChassisTask();
+
 }

@@ -9,6 +9,7 @@ enable_language(C ASM)
 target_compile_definitions(stm32cubemx INTERFACE 
 	USE_HAL_DRIVER 
 	STM32F407xx
+    ARM_MATH_CM4  
     $<$<CONFIG:Debug>:DEBUG>
 )
 
@@ -21,6 +22,7 @@ target_include_directories(stm32cubemx INTERFACE
     ../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
     ../../Drivers/CMSIS/Device/ST/STM32F4xx/Include
     ../../Drivers/CMSIS/Include
+    ../../Middlewares/ST/ARM/DSP/Inc
 )
 
 target_sources(stm32cubemx INTERFACE
@@ -64,9 +66,11 @@ target_sources(stm32cubemx INTERFACE
 )
 
 target_link_directories(stm32cubemx INTERFACE
+    ../../Middlewares/ST/ARM/DSP/Lib
 )
 
-target_link_libraries(stm32cubemx INTERFACE
+target_link_libraries(stm32cubemx INTERFACE 
+	:libCMSISDSP.a
 )
 
 # Validate that STM32CubeMX code is compatible with C standard
