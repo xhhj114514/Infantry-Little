@@ -20,7 +20,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-# 将 compile_commands.json 复制到项目根目录
+# 强制将 compile_commands.json 复制到项目根目录,需要ctrl+shift+p重启clangd语言服务器
 file(COPY "${CMAKE_BINARY_DIR}/compile_commands.json"
      DESTINATION "${CMAKE_SOURCE_DIR}")
 
@@ -66,7 +66,8 @@ function(USER_ADD_DIR dir)
     target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${dir})
 endfunction()
 ###############################在此处添加你的文件路径#########
-# USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/LED)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/LED)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/printf)
 
 
 # Link directories setup
