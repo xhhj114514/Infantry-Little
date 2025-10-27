@@ -10,8 +10,10 @@
 #include "bsp_dwt.h"
 
 osThreadId robotTaskHandle;
+osThreadId MotorTaskHandle;
 
 void StartROBOTTASK(void const *argument);
+void StartMotorTask(void const *argument);
 
 
 /**
@@ -20,8 +22,11 @@ void StartROBOTTASK(void const *argument);
  */
 void OSTaskInit()
 {
-    osThreadDef(robottask, StartROBOTTASK, osPriorityNormal, 0, 1024);
+    osThreadDef(robottask, StartROBOTTASK, osPriorityNormal, 0, 128);
     robotTaskHandle = osThreadCreate(osThread(robottask), NULL);
+
+    osThreadDef(motortask, StartMotorTask, osPriorityNormal, 0, 512);
+    MotorTaskHandle = osThreadCreate(osThread(motortask), NULL);
 }
 
 __attribute__((noreturn)) void StartROBOTTASK(void const *argument)
@@ -37,6 +42,14 @@ __attribute__((noreturn)) void StartROBOTTASK(void const *argument)
         if (robot_dt > 5)
         {}
         osDelay(2);
+    }
+}
+
+__attribute__((noreturn)) void StartMotorTask(void const *argument)
+{
+    for(;;)
+    {
+        osDelay(1);
     }
 }
 

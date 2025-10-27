@@ -71,6 +71,7 @@ USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/printf)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/dwt)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/algorithm)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Applications)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/Motor/TB6612)
 
 
 # Link directories setup
@@ -88,10 +89,6 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
 )
 
-target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
-    -Wno-gnu
-    -Wno-gnu-binary-literal
-)
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE

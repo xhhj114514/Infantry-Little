@@ -1,8 +1,9 @@
 #include "robot.h"
 #include "robot_def.h"
 #include "robot_task.h"
+#include "bsp_dwt.h"
 
-
+#include "TB6612.h"
 
 void RobotInit()
 {  
@@ -10,8 +11,8 @@ void RobotInit()
     // 请不要在初始化过程中使用中断和延时函数！
     // 若必须,则只允许使用DWT_Delay()
     __disable_irq();
-
-
+    DWT_Init(168); // 初始化DWT
+    TB6612_Motor_Init();
     OSTaskInit(); // 创建基础任务
 
     // 初始化完成,开启中断

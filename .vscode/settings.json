@@ -23,8 +23,16 @@
         "dma.h": "c",
         "tim.h": "c",
         "cstdlib": "c",
-        "cmsis_os.h": "c"
+        "cmsis_os.h": "c",
+        "robot.h": "c",
+        "robot_def.h": "c",
+        "robot_task.h": "c",
+        "tb6612.h": "c",
+        "controller.h": "c",
+        "nrf.h": "c"
     },
     "cortex-debug.variableUseNaturalFormat": true,
-    "clangd.enable": true,
+    "C_Cpp.intelliSenseEngine": "default",
+    "clangd.enable": false,
+    "clangd.background-index": true,
 }

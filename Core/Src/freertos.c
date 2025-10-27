@@ -26,6 +26,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "gpio.h"
+#include "usart.h"
+#include "printf.h"
+#include "TB6612.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +48,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+static uint8_t USART_RXBUFF[32];
+static float Velocity[4];
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId ButtonTaskHandle;
@@ -145,25 +149,14 @@ void StartDefaultTask(void const * argument)
 void StartButtonTask(void const * argument)
 {
   /* USER CODE BEGIN StartButtonTask */
+  printf("StartButtonTask");
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart2, USART_RXBUFF, sizeof(USART_RXBUFF));
+  __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
+  HAL_UART_Transmit_DMA(&huart2,&"HELLO\r\n",7);
   /* Infinite loop */
   for(;;)
   {
-    if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET)
-    {
-      osDelay(2);
-      if(HAL_GPIO_ReadPin(KEY1_GPIO_Port, KEY1_Pin) == GPIO_PIN_RESET)
-      {
-        HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-      }
-    }
-    else if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET)
-    {
-      osDelay(2);
-      if(HAL_GPIO_ReadPin(KEY2_GPIO_Port, KEY2_Pin) == GPIO_PIN_RESET)
-      {
-        HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
-      }
-    }
+    LinearMapVxy(Velocity[0],Velocity[1],Velocity[2]);
     osDelay(1);
   }
   /* USER CODE END StartButtonTask */
@@ -171,5 +164,19 @@ void StartButtonTask(void const * argument)
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-
+//todo 优化逻辑 接收全部32B数据
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+  if(huart->Instance == USART2)
+  {
+    memcpy(&Velocity[0],&USART_RXBUFF[0],sizeof(float));
+    memcpy(&Velocity[1],&USART_RXBUFF[4],sizeof(float));
+    memcpy(&Velocity[2],&USART_RXBUFF[8],sizeof(float));
+    memcpy(&Velocity[3],&USART_RXBUFF[12],sizeof(float));
+    memset(USART_RXBUFF,0,sizeof(USART_RXBUFF));
+    printf("%f,%f,%f,%f\r\n",Velocity[0],Velocity[1],Velocity[2],Velocity[3]);
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, USART_RXBUFF, sizeof(USART_RXBUFF));
+    __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
+  }
+}
 /* USER CODE END Application */

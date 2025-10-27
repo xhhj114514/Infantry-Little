@@ -57,14 +57,39 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define CORECLK 168000000
+#define PWMFREQ 15000
+#define PWMPRSC 168-1
+#define PWMPERIOD CORECLK/(PWMFREQ*(PWMPRSC+1))
 #define KEY1_Pin GPIO_PIN_3
 #define KEY1_GPIO_Port GPIOE
 #define KEY2_Pin GPIO_PIN_4
 #define KEY2_GPIO_Port GPIOE
-#define LED2_Pin GPIO_PIN_6
-#define LED2_GPIO_Port GPIOA
-#define LED1_Pin GPIO_PIN_7
-#define LED1_GPIO_Port GPIOA
+#define FLASH_CS_Pin GPIO_PIN_0
+#define FLASH_CS_GPIO_Port GPIOB
+#define _AIN1_Pin GPIO_PIN_2
+#define _AIN1_GPIO_Port GPIOD
+#define _AIN2_Pin GPIO_PIN_3
+#define _AIN2_GPIO_Port GPIOD
+#define _BIN1_Pin GPIO_PIN_4
+#define _BIN1_GPIO_Port GPIOD
+#define _BIN2_Pin GPIO_PIN_5
+#define _BIN2_GPIO_Port GPIOD
+#define BIN1_Pin GPIO_PIN_6
+#define BIN1_GPIO_Port GPIOD
+#define BIN2_Pin GPIO_PIN_7
+#define BIN2_GPIO_Port GPIOD
+#define NRF_CE_Pin GPIO_PIN_6
+#define NRF_CE_GPIO_Port GPIOB
+#define NRF_CS_Pin GPIO_PIN_7
+#define NRF_CS_GPIO_Port GPIOB
+#define NRF_IRQ_Pin GPIO_PIN_8
+#define NRF_IRQ_GPIO_Port GPIOB
+#define NRF_IRQ_EXTI_IRQn EXTI9_5_IRQn
+#define AIN1_Pin GPIO_PIN_0
+#define AIN1_GPIO_Port GPIOE
+#define AIN2_Pin GPIO_PIN_1
+#define AIN2_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 
