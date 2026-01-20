@@ -28,7 +28,6 @@
 #include "gpio.h"
 #include "usart.h"
 #include "printf.h"
-#include "TB6612.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,6 +61,7 @@ osThreadId ButtonTaskHandle;
 void StartDefaultTask(void const * argument);
 void StartButtonTask(void const * argument);
 
+extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
@@ -130,6 +130,8 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
   for(;;)
@@ -150,13 +152,13 @@ void StartButtonTask(void const * argument)
 {
   /* USER CODE BEGIN StartButtonTask */
   printf("StartButtonTask");
-  HAL_UARTEx_ReceiveToIdle_DMA(&huart2, USART_RXBUFF, sizeof(USART_RXBUFF));
-  __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
-  HAL_UART_Transmit_DMA(&huart2,&"HELLO\r\n",7);
+  // HAL_UARTEx_ReceiveToIdle_DMA(&huart2, USART_RXBUFF, sizeof(USART_RXBUFF));
+  // __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
+  // HAL_UART_Transmit_DMA(&huart2,&"HELLO\r\n",7);
   /* Infinite loop */
   for(;;)
   {
-    LinearMapVxy(Velocity[0],Velocity[1],Velocity[2]);
+    // LinearMapVxy(-Velocity[0],Velocity[1],Velocity[2]);
     osDelay(1);
   }
   /* USER CODE END StartButtonTask */
@@ -169,14 +171,14 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
   if(huart->Instance == USART2)
   {
-    memcpy(&Velocity[0],&USART_RXBUFF[0],sizeof(float));
-    memcpy(&Velocity[1],&USART_RXBUFF[4],sizeof(float));
-    memcpy(&Velocity[2],&USART_RXBUFF[8],sizeof(float));
-    memcpy(&Velocity[3],&USART_RXBUFF[12],sizeof(float));
-    memset(USART_RXBUFF,0,sizeof(USART_RXBUFF));
-    printf("%f,%f,%f,%f\r\n",Velocity[0],Velocity[1],Velocity[2],Velocity[3]);
-    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, USART_RXBUFF, sizeof(USART_RXBUFF));
-    __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
+    // memcpy(&Velocity[0],&USART_RXBUFF[0],sizeof(float));
+    // memcpy(&Velocity[1],&USART_RXBUFF[4],sizeof(float));
+    // memcpy(&Velocity[2],&USART_RXBUFF[8],sizeof(float));
+    // memcpy(&Velocity[3],&USART_RXBUFF[12],sizeof(float));
+    // memset(USART_RXBUFF,0,sizeof(USART_RXBUFF));
+    // printf("%f,%f,%f,%f\r\n",Velocity[0],Velocity[1],Velocity[2],Velocity[3]);
+    // HAL_UARTEx_ReceiveToIdle_DMA(&huart2, USART_RXBUFF, sizeof(USART_RXBUFF));
+    // __HAL_DMA_DISABLE_IT(huart2.hdmarx, DMA_IT_HT);
   }
 }
 /* USER CODE END Application */

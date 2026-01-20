@@ -25,7 +25,7 @@
                 "samplesPerSecond": 20
             },
             "rttConfig": {
-                "enabled": false,
+                "enabled": true,
                 "address": "auto",
                 "clearSearch": false,
                 "polling_interval": 1000,
@@ -36,7 +36,18 @@
                         "type": "console"
                     }
                 ]
-            }
+            },
+            // {
+            //     "cwd": "${workspaceFolder}",
+            //     "executable": "./build/Debug/${workspaceFolderBasename}.elf",
+            //     "name": "Debug with JLink",
+            //     "request": "launch",
+            //     "type": "cortex-debug",
+            //     "device": "STM32F407VE",
+            //     "runToEntryPoint": "main",
+            //     "showDevDebugOutput": "none",
+            //     "servertype": "jlink"
+            // },
         }
     ]
 }

@@ -19,17 +19,22 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "can.h"
+#include "crc.h"
 #include "dma.h"
 #include "spi.h"
+#include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_gpio.h"
 #include "tim.h"
 #include "usart.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "printf.h"
 #include "robot.h"
-#include "TB6612.h"
+#include "SEGGER_RTT.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,13 +107,16 @@ int main(void)
   MX_TIM8_Init();
   MX_TIM6_Init();
   MX_SPI1_Init();
-  MX_SPI2_Init();
   MX_USART2_UART_Init();
+  MX_TIM3_Init();
+  MX_CAN1_Init();
+  MX_CRC_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-  //printf("HELLO\r\n");
+  // printf("HELLO\r\n");
+  SEGGER_RTT_Init();
   RobotInit();
-  HAL_GPIO_WritePin(FLASH_CS_GPIO_Port, FLASH_CS_Pin, GPIO_PIN_SET);
-
+  SEGGER_RTT_printf(0, "HELLO!");
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
@@ -123,6 +131,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -154,7 +163,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 4;
   RCC_OscInitStruct.PLL.PLLN = 168;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();

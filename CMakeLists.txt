@@ -33,8 +33,6 @@ endif()
 # Set the project name
 set(CMAKE_PROJECT_NAME Infantry-Little)
 
-# Include toolchain file
-include("cmake/gcc-arm-none-eabi.cmake")
 
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
@@ -51,6 +49,7 @@ add_executable(${CMAKE_PROJECT_NAME})
 
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
+add_subdirectory(SEGGER)
 
 
 ##############以下为修改过的cmakelist#################
@@ -66,12 +65,14 @@ function(USER_ADD_DIR dir)
     target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${dir})
 endfunction()
 ###############################在此处添加你的文件路径#########
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Middleware/Third_Party/SEGGER/Config)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Middleware/Third_Party/SEGGER/RTT)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/LED)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/printf)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/dwt)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/algorithm)
 USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Applications)
-USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/Motor/TB6612)
+USER_ADD_DIR(${CMAKE_SOURCE_DIR}/Modules/Motor/ENCMOTOR)
 
 
 # Link directories setup
@@ -100,6 +101,14 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
+    SEGGER_RTT
 
     # Add user defined libraries
+)
+
+# 生成 HEX
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${CMAKE_BINARY_DIR}/Debug.hex
+    COMMENT "Generating HEX: Debug.hex"
 )

@@ -1,0 +1,7 @@
+
+h                              // halt target
+r                              // reset (optional)
+loadfile build/Debug/Debug.hex
+r                              // reset again after flash
+g                              // go / run (可选，如果你想直接跑起来就加，不想就删掉)
+q                              // quit

@@ -53,6 +53,48 @@
 			],
             "dependsOn": "build",
 			"problemMatcher": [],
-		}
+		},
+        {
+            "label": "log",
+            "type": "process",
+            "command": "E:\\MDEBUG\\JLINK\\JLinkRTTClient.exe",
+            "args": [],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "options": {
+                "shell": {
+                    "executable": "powershell.exe",
+                    "args": ["-Command"]
+                }
+            }
+        },
+        {
+            "type": "shell",
+            "label": "jlink_flash",
+            "command": "E:\\MDEBUG\\JLINK\\JLink.exe",
+            "args": [
+                "-device", "STM32F407VE",
+        "-if", "SWD",
+        "-speed", "4000",
+        "-autoconnect", "1",
+        "-NoGui", "1",
+                "-CommanderScript", "${workspaceFolder}\\flash.jlink"   // ← 關鍵！指定腳本檔
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOn": "build",           // 先 build 再 flash（看你需求）
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
     ]
 }
